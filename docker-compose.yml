@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      target: builder   # Use builder stage for dev (includes devDependencies)
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules  # Exclude node_modules from host mount
+      - /app/.next         # Exclude .next from host mount
+    environment:
+      - NODE_ENV=development
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    env_file:
+      - .env.local

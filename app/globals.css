@@ -1,26 +1,154 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ─── Design Tokens ───────────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Reader font sizes */
+  --font-size-reader-md: 20px;
+  --font-size-reader-lg: 24px;
+  --font-size-reader-xl: 28px;
+  --font-size-reader-2xl: 34px;
+
+  /* Line heights for reader */
+  --line-height-reader-md: 1.8;
+  --line-height-reader-lg: 1.9;
+  --line-height-reader-xl: 2.0;
+  --line-height-reader-2xl: 2.1;
+
+  /* Touch targets */
+  --spacing-touch: 48px;
+  --spacing-touch-lg: 64px;
+  --spacing-touch-xl: 80px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── CSS Variables (theme-aware) ─────────────────────────────────── */
+:root {
+  /* Default: light theme */
+  --bg: #fdf8f0;
+  --bg-secondary: #f0e8d8;
+  --text: #2c2c2c;
+  --text-muted: #6b5e4e;
+  --accent: #6b4c11;
+  --accent-fg: #ffffff;
+  --border: #d4c9b0;
+  --card-bg: #ffffff;
+  --nav-bg: #fdf8f0;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Light Theme (warm cream) ──────────────────────────────────────── */
+.theme-light {
+  --bg: #fdf8f0;
+  --bg-secondary: #f0e8d8;
+  --text: #2c2c2c;
+  --text-muted: #6b5e4e;
+  --accent: #6b4c11;
+  --accent-fg: #ffffff;
+  --border: #d4c9b0;
+  --card-bg: #ffffff;
+  --nav-bg: #fdf8f0;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Dark Theme ────────────────────────────────────────────────────── */
+.theme-dark {
+  --bg: #1a1a2e;
+  --bg-secondary: #16213e;
+  --text: #e8e0d0;
+  --text-muted: #a09080;
+  --accent: #c9a84c;
+  --accent-fg: #1a1a2e;
+  --border: #3a3a5c;
+  --card-bg: #22223a;
+  --nav-bg: #12122a;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── High Contrast Theme ───────────────────────────────────────────── */
+.theme-high-contrast {
+  --bg: #000000;
+  --bg-secondary: #111111;
+  --text: #ffff00;
+  --text-muted: #ffffff;
+  --accent: #ffffff;
+  --accent-fg: #000000;
+  --border: #ffffff;
+  --card-bg: #000000;
+  --nav-bg: #000000;
+  --shadow: 0 0 0 2px #ffffff;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────────────── */
+html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  min-height: 100%;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ─── Font Size Classes (applied to reader content) ────────────────── */
+.font-reader-md {
+  font-size: 20px;
+  line-height: 1.8;
+}
+.font-reader-lg {
+  font-size: 24px;
+  line-height: 1.9;
+}
+.font-reader-xl {
+  font-size: 28px;
+  line-height: 2.0;
+}
+.font-reader-2xl {
+  font-size: 34px;
+  line-height: 2.1;
+}
+
+/* ─── Utility Classes ───────────────────────────────────────────────── */
+.bg-app        { background-color: var(--bg); }
+.bg-secondary  { background-color: var(--bg-secondary); }
+.bg-card       { background-color: var(--card-bg); }
+.bg-nav        { background-color: var(--nav-bg); }
+.bg-accent     { background-color: var(--accent); }
+.text-app      { color: var(--text); }
+.text-muted    { color: var(--text-muted); }
+.text-accent   { color: var(--accent); }
+.text-accent-fg{ color: var(--accent-fg); }
+.border-app    { border-color: var(--border); }
+.shadow-app    { box-shadow: var(--shadow); }
+
+/* ─── Focus Visible (accessibility) ────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Scrollbar (subtle) ────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
