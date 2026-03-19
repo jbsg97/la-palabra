@@ -48,7 +48,6 @@ export function ReaderClient() {
   const isBookmarked = bookmarks.isBookmarked(bookId, chapterNumber, 1);
 
   const toggleBookmark = () => {
-    if (!chapter?.verses.length) return;
     if (isBookmarked) {
       const bm = bookmarks.bookmarks.find(
         (b) => b.bookId === bookId && b.chapter === chapterNumber && b.verse === 1
@@ -61,7 +60,7 @@ export function ReaderClient() {
         bookName,
         chapter: chapterNumber,
         verse: 1,
-        text: chapter.verses[0].text,
+        text: chapter?.verses[0]?.text ?? "",
       });
     }
   };

@@ -92,6 +92,12 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* ─── Touch targets (Android fix) ───────────────────────────────────── */
+button, a, [role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ─── Font Size Classes (applied to reader content) ────────────────── */
 .font-reader-md {
   font-size: 20px;
