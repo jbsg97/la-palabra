@@ -24,21 +24,33 @@ export function useTTS() {
     (text: string) => {
       if (!isSupported || !text) return;
       window.speechSynthesis.cancel();
+      // Android Chrome sometimes pauses synthesis — resume before speaking
+      window.speechSynthesis.resume();
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = translation === "rvr60" ? "es-ES" : "en-US";
       utterance.rate = ttsRate;
       utterance.pitch = 1;
 
-      const voices = window.speechSynthesis.getVoices();
-      const preferred = voices.find((v) => v.lang.startsWith(utterance.lang.split("-")[0]));
-      if (preferred) utterance.voice = preferred;
-
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       utterance.onerror = () => setIsSpeaking(false);
 
-      window.speechSynthesis.speak(utterance);
+      const doSpeak = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const preferred = voices.find((v) =>
+          v.lang.startsWith(utterance.lang.split("-")[0])
+        );
+        if (preferred) utterance.voice = preferred;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      // Voices may not be loaded yet on Android — wait for voiceschanged if needed
+      if (window.speechSynthesis.getVoices().length > 0) {
+        doSpeak();
+      } else {
+        window.speechSynthesis.addEventListener("voiceschanged", doSpeak, { once: true });
+      }
     },
     [isSupported, ttsRate, translation]
   );
