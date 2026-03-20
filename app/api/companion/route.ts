@@ -2,8 +2,6 @@ import { NextRequest } from "next/server";
 import Groq from "groq-sdk";
 import { buildSystemPrompt } from "@/lib/companion/prompt";
 
-export const runtime = "edge";
-
 function getGroq() {
   return new Groq({ apiKey: process.env.GROQ_API_KEY ?? "" });
 }
